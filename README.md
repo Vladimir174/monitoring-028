@@ -16,13 +16,14 @@ Cообщения сохраняются в базу Opensearch и могут б
 Замените logstash на datapreper он должен принимать данные от fluentbeat;
 Замените Elasticsearch и Kibana на Opensearch и Opensearch Dashboard.
 
+____________________________________________________________________________________
 
-На одной машине ip 192.168.112.27 запущены в контейнерах 
+**На одной машине ip 192.168.112.27** запущены в контейнерах 
 Opensearch 2 ноды.
 Opensearch-dashboards
 Dataprapper
 
-На другой машине ip 192.168.112.125 запущен в контейнере
+**На другой машине ip 192.168.112.125** запущен в контейнере
 fluent-bit он собиарет данные c этого же хоста где установлены ngixn(cms), mariadb, pho-fpm. Отправляет всё в data-prapper и opoensearch.
 
 ![Screenshot_6](https://github.com/user-attachments/assets/4a1ad770-9d12-4551-a4f2-c9e9490617b5)
