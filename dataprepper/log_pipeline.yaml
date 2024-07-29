@@ -1,0 +1,52 @@
+#log-pipeline:
+#  source:
+#    http:
+#      ssl: false
+#  processor:
+#    - grok:
+#        match:
+#          log: [ "%{COMMONAPACHELOG}" ]
+#    - grok:
+#        match:
+#          log: [" %{NUMBER:date} %{NOTSPACE:time}%{INT:pid}%{GREEDYDATA:message}" ]
+#  sink:
+#    - opensearch:
+#        hosts: [ "https://192.168.112.27:9200" ]
+#        insecure: true
+#        username: admin
+#        password: admin
+#        index: nginx
+#
+log-pipeline:
+  source:
+    http:
+      ssl: false
+  processor:
+    - grok:
+        match:
+          log: ["%{COMMONAPACHELOG}"]  # Для парсинга nginx логов
+    - grok:
+        match:
+          log: ["%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:loglevel} %{GREEDYDATA:message}"]  # Для парсинга php-fpm логов
+    - grok:
+        match:
+          log: ["%{TIMESTAMP_ISO8601:timestamp} %{LOGLEVEL:loglevel} %{GREEDYDATA:message}"]  # Для парсинга mariadb логов
+  sink:
+    - opensearch:
+        hosts: ["https://192.168.112.27:9200"]
+        insecure: true
+        username: admin
+        password: admin
+        index: nginx_logs
+    - opensearch:
+        hosts: ["https://192.168.112.27:9200"]
+        insecure: true
+        username: admin
+        password: admin
+        index: php_fpm_logs
+    - opensearch:
+        hosts: ["https://192.168.112.27:9200"]
+        insecure: true
+        username: admin
+        password: admin
+        index: mariadb_logs
